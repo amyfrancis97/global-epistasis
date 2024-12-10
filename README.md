@@ -52,12 +52,12 @@ conda activate <envname>
 nano config.sh
 ```
 
-2. **Update the job files to match compute specification.**
+2. **Update the job file to match compute specification.**
    
 ```bash
-nano *.sh
+nano run_jobs.sh
 ```
-Currently, job scripts use slurm. These job scripts will need to be updated to match the specifications of the machine that is in use.
+Currently, job script uses slurm. Theis job scripts will need to be updated to match the specifications of the machine that is in use.
 
 2. **Optional: Edit and execute the main.sh script.**
    
