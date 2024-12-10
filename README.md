@@ -52,7 +52,7 @@ conda activate <envname>
 nano config.sh
 ```
 
-2. **Edit and execute the main.sh script.**
+2. **Optional: Edit and execute the main.sh script.**
    
 ```bash
 ./main.sh
@@ -96,3 +96,7 @@ This job script runs MAVE-NN global epistasis models for different numbers of do
 The first argument passed to the wrapper script can either be "all_mutants" or "single_epitope", depending on whether you want to allow epitope switching in Absolut! data.
 The second argument passed to the wrapper script is either "sample_all" or "sample_double_triples". "sample_all" randomly samples a specified total number of doubles and triples, whereas "sample_double_triples" allows you to specify exact numbers of doubles and exact numbers of triples to sample from the training dataset for modeling.
 The third argument passed to the wrapper script breaks down the antigen complexes into two batches, implemented due to computational constraints e.g., "first_half" or "second_half".
+
+## 💻 Script Details
+
+
