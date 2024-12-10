@@ -1,4 +1,4 @@
-# 🧬 Global Epistasis Models of Antibody-Antigen Interactions 
+# 🧬 Global Epistasis Models for Antibody-Antigen Interactions 
 
 ## 📖 Introduction and Overview 
 
