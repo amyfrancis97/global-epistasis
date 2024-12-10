@@ -52,5 +52,47 @@ conda activate <envname>
 nano config.sh
 ```
 
+2. **Edit and execute the main.sh script.**
+   
+```bash
+./main.sh
+```
+The main script executes the following job scripts:
 
+```bash
+1_download_structures.sh
+```
+This script downloads the Absolut! structure files for the antigen complexes listed in 'data/global_epistasis_cdrs_greater_11.txt'
 
+```bash
+2_get_11_mer.sh
+```
+This script then obtains the binding affinities for each of the structures from Absolut!. If the CDR-H3 sequence is greater than 11 amino acids, this script obtains the binding affinity for each 11-mer slide, and returns the 11-mer CDR sequence that results in the most negative binding affinity.
+
+```bash
+3_get_mutants.sh
+```
+
+For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes scripts to generate all possible single mutants, and a specified percentage of double and triple mutants. Then it executes another script to obtain predicted Asbolut! binding affinities for each of the mutant sequences and reformats for MAVE-NN models.
+
+The default is for this script to obtain binding affinities for all singles, 50% of doubles, and 1% of triples, but these percentages can be specified as arguments within the main script:
+
+```bash
+sbatch 3_get_mutants.sh --double 0.5 --triple 0.01 "$result_file"
+```
+
+Then the script exectutes:
+
+```bash
+sampling_wrapper.sh
+```
+
+This job script runs MAVE-NN global epistasis models for different numbers of double and triples. sampling_wrapper.sh must have 3 arguments passed to it:
+
+```bash
+./sampling_wrapper.sh "all_mutants" "sample_all" "first_half"
+```
+
+The first argument passed to the wrapper script can either be "all_mutants" or "single_epitope", depending on whether you want to allow epitope switching in Absolut! data.
+The second argument passed to the wrapper script is either "sample_all" or "sample_double_triples". "sample_all" randomly samples a specified total number of doubles and triples, whereas "sample_double_triples" allows you to specify exact numbers of doubles and exact numbers of triples to sample from the training dataset for modeling.
+The third argument passed to the wrapper script breaks down the antigen complexes into two batches, implemented due to computational constraints e.g., "first_half" or "second_half".
