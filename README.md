@@ -39,7 +39,7 @@ This repository contains scripts associated with the Global Epistasis internship
 ## 🛠️ Setup
 
 ### 🐍 **Anaconda Setup:**
-Install dependencies using conda (update ```<envname>``` to the environment name of your choice e.g., 'CanDrivR-env'):
+Install dependencies using conda (update ```<envname>``` to the environment name of your choice e.g., 'global_epistasis'):
 
 ```bash
 conda env create --name <envname> --file=global_epistasis.yml
