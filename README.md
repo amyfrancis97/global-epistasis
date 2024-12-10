@@ -1,10 +1,10 @@
-# Global Epistasis Models of Antibody-Antigen Interactions 🧬
+# 🧬 Global Epistasis Models of Antibody-Antigen Interactions 
 
-## Introduction and Overview 
+## 📖 Introduction and Overview 
 
 This repository contains scripts associated with the Global Epistasis internship project. 
 
-## Directory Structure
+## 🌳 Directory Structure
 ```bash
 .
 ├── README.md                             # Project overview and usage instructions
@@ -36,16 +36,16 @@ This repository contains scripts associated with the Global Epistasis internship
 
 ```
 
-## Setup
+## 🛠️ Setup
 
-### **Anaconda Setup:**
+### 🐍 **Anaconda Setup:**
 Install dependencies using conda (update ```<envname>``` to the environment name of your choice e.g., 'CanDrivR-env'):
 
 ```bash
 conda env create --name <envname> --file=global_epistasis.yml
 conda activate <envname>
 ```
-## Usage
+## 💻 Usage
 1. **Update the config file to contain the paths in which this repository has been cloned.**
    
 ```bash
