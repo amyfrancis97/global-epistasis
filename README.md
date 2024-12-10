@@ -1,6 +1,6 @@
-# Global Epistasis Models of Antibody-Antigen Interactions
+# Global Epistasis Models of Antibody-Antigen Interactions 🧬
 
-## Introduction and Overview
+## Introduction and Overview 
 
 This repository contains scripts associated with the Global Epistasis internship project. 
 
