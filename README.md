@@ -62,31 +62,23 @@ Currently, job scripts use slurm. These job scripts will need to be updated to m
 2. **Optional: Edit and execute the main.sh script.**
    
 ```bash
+chmod +x main.sh
+nano main.sh # Update to compute specifications.
 ./main.sh
 ```
+
 The main script executes the following job scripts:
 
-```bash
-1_download_structures.sh
-```
-
-```bash
-2_get_11_mer.sh
-```
-
-```bash
-3_get_mutants.sh
-```
-
-```bash
-sampling_wrapper.sh
-```
+* 1_download_structures.sh
+* 2_get_11_mer.sh
+* 3_get_mutants.sh
+* sampling_wrapper.sh
 
 For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes scripts to generate all possible single mutants, and a specified percentage of double and triple mutants. Then it executes another script to obtain predicted Asbolut! binding affinities for each of the mutant sequences and reformats for MAVE-NN models.
 
 The default is for this script to obtain binding affinities for all singles, 50% of doubles, and 1% of triples, but these percentages can be specified as arguments within the main script.
 
-## ℹ️ Script Details
+## ℹ️ Job Script Details
 
 ### Step 1: 1_download_structures.sh ###
 
