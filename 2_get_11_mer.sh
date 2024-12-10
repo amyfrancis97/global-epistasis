@@ -1,15 +1,4 @@
 #!/bin/bash
-#SBATCH --job-name=get_structures_job          # Job name
-#SBATCH --output=logs/get_structures_%j.out         # Output and error log
-#SBATCH --error=logs/get_structures_%j.err          # Error log
-#SBATCH --partition=gpu                    # Partition with GPU resources
-#SBATCH --gres=gpu:1                       # Request 1 GPU
-#SBATCH --cpus-per-task=4                   # Number of CPU cores per task
-#SBATCH --mem=10G                           # Total memory limit
-#SBATCH --time=24:00:00                     # Time limit: 24 hours
-#SBATCH --ntasks=1                          # Run a single task
-#SBATCH --account=sscm013903
-#SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
 
 source config.sh
 

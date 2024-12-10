@@ -25,7 +25,6 @@ SCRIPT_DIR="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeli
 # For each of the best-binding 11-mers selected for each antibody.
 # Generate all single mutants, and a specified proportion of double and triple mutants.
 # Outputs train_val and test data into the /data directory.
-#sbatch 3_get_mutants.sh --double 0.5 --triple 0.01 ${ABSOLUT_DIR}/1FBI_X_results.txt
 
 # Loop through each file that matches the pattern *results.txt
 # Gets mutants for each antigen-antibody complex
