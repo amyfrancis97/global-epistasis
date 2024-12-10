@@ -8,7 +8,7 @@
 #SBATCH --mem=32G                       # Total memory limit
 #SBATCH --time=48:00:00                 # Time limit: 48 hours
 #SBATCH --account=sscm013903
-#SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
+##SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
 
 start_time=$(date +%s)
 
@@ -19,17 +19,14 @@ GPMAP_TYPE=$3
 TRAINVAL_DF=$4       # Trainval file path passed from wrapper script
 TEST_DF=$5           # Test file path passed from wrapper script
 
+source config.sh
+
 # Activate environment and set paths
 cd $WORK_DIR
 
-source /user/home/uw20204/.bashrc
-
-conda activate global_epistasis
-
-cd /user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/sampling_scripts
+cd $SCRIPT_DIR/sampling_scripts
 
 # Define data paths
-OUTPUT_PATH="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/results"
 
 # Check which script to run based on the argument passed
 if [ "$SCRIPT_TO_RUN" == "active_learning" ]; then

@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# Set directory paths
-DATA_DIR="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/data"
-SBATCH_SCRIPT="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/latent_phenotype_job.sh"
-OUTPUT_PATH="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/results"
+source config.sh
 
 # Arguments
 FILTER=$1        # Filter type, e.g., "all_mutants" or "single_epitope"

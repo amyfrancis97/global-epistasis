@@ -10,12 +10,10 @@
 #SBATCH --account=sscm013903
 #SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/esm
 
-source /user/home/uw20204/.bashrc
+source config.sh
 
-conda activate global_epistasis
-
-#python -u get_esm_likelihoods.py
+python -u get_esm_likelihoods.py
 
 python -u get_antibert_likelihoods.py
 
-#python -u get_iglm_likelihoods.py
+python -u get_iglm_likelihoods.py

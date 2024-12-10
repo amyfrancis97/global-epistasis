@@ -10,11 +10,9 @@
 #SBATCH --time=24:00:00                     # Time limit: 24 hours
 #SBATCH --ntasks=1                          # Run a single task
 #SBATCH --account=sscm013903
-#SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
+##SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
 
-# Activate the environment
-source /user/home/uw20204/.bashrc
-conda activate global_epistasis
+source config.sh
 
 # Function to print usage instructions
 usage() {
@@ -46,10 +44,6 @@ fi
 PERC_DOUBLE_MUTANTS="${PERC_DOUBLE_MUTANTS:-$DEFAULT_PERC_DOUBLE_MUTANTS}"
 PERC_TRIPLE_MUTANTS="${PERC_TRIPLE_MUTANTS:-$DEFAULT_PERC_TRIPLE_MUTANTS}"
 
-# Define paths and filenames
-ABSOLUT_DIR="/user/home/uw20204/global-epistasis/Absolut/src"
-SCRIPT_DIR="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/get_mutants_scripts"
-DATA_DIR="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/data"
 THREADS=50
 
 # Process each line of the input file

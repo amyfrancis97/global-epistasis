@@ -1,8 +1,9 @@
 #!/bin/bash
 
+source config.sh 
+
 # Set directory paths
-DATA_DIR="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/data"
-SBATCH_SCRIPT="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling/sampling_strategies.sh"
+SBATCH_SCRIPT="$SCRIPT_DIR/sampling_strategies.sh"
 
 # Specify the filter (either "all_mutants" or "single_epitope")
 FILTER=$1  # First argument passed to the wrapper script, e.g., "all_mutants" or "single_epitope"

@@ -10,10 +10,9 @@
 #SBATCH --time=24:00:00                     # Time limit: 24 hours
 #SBATCH --ntasks=1                          # Run a single task
 #SBATCH --account=sscm013903
-#SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
+##SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
 
-SCRIPT_DIR="/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling"
-ABSOLUT_DIR="/user/home/uw20204/global-epistasis/Absolut/src"
+source config.sh
 
 cd $ABSOLUT_DIR
 

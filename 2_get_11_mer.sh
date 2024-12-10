@@ -11,13 +11,14 @@
 #SBATCH --account=sscm013903
 #SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
 
+source config.sh
+
 pdb_code=$1
 sequence=$2
 
 echo $pdb_code
 echo $sequence
 
-ABSOLUT_DIR="/user/home/uw20204/global-epistasis/Absolut/src"
 cd $ABSOLUT_DIR
 
 ./AbsolutNoLib singleBinding "$pdb_code" "$sequence" > "${pdb_code}_results.tmp"
