@@ -1,15 +1,4 @@
 #!/bin/bash
-
-#SBATCH --job-name=sample_jobs     # Job name
-#SBATCH --output=logs/sample_mutation%j.out    # Output and error log
-#SBATCH --error=logs/sample_mutation%j.err     # Error log
-#SBATCH --partition=gpu                 # Partition with GPU resources
-#SBATCH --gres=gpu:1                    # Request 1 GPU
-#SBATCH --mem=32G                       # Total memory limit
-#SBATCH --time=48:00:00                 # Time limit: 48 hours
-#SBATCH --account=sscm013903
-##SBATCH --chdir=/user/home/uw20204/global-epistasis/mavenn_pipeline/pipeline2/pipeline_scaling
-
 start_time=$(date +%s)
 
 # Receive arguments from sbatch

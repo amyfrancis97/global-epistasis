@@ -3,7 +3,8 @@
 source config.sh 
 
 # Set directory paths
-SBATCH_SCRIPT="$SCRIPT_DIR/sampling_strategies.sh"
+run_jobs.sh
+SBATCH_SCRIPT="$SCRIPT_DIR/run_jobs.sh"
 
 # Specify the filter (either "all_mutants" or "single_epitope")
 FILTER=$1  # First argument passed to the wrapper script, e.g., "all_mutants" or "single_epitope"
@@ -48,7 +49,7 @@ for ((i=start_idx; i<end_idx; i++)); do
     if [ -f "$test_file" ]; then
         # Submit a job for this pair of files
         echo "Submitting job for $base_name"
-        sbatch $SBATCH_SCRIPT "seed" $SAMPLING_TYPE "gpmap_type" "$trainval_file" "$test_file"
+        sbatch $SBATCH_SCRIPT sampling_strategies.sh "seed" $SAMPLING_TYPE "gpmap_type" "$trainval_file" "$test_file"
     else
         echo "No matching test file for $base_name"
     fi
