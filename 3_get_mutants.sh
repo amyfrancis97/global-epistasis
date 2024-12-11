@@ -9,6 +9,8 @@ usage() {
     exit 1
 }
 
+echo $input_file
+
 # Set default values for double and triple mutants
 DEFAULT_PERC_DOUBLE_MUTANTS=0.05
 DEFAULT_PERC_TRIPLE_MUTANTS=0.005
@@ -49,7 +51,7 @@ while read -r ANTIGEN _ CDR_SEQ _ _ EPITOPE; do
     # Step 1: Generate mutants using the Python script
     generate_mutants() {
         echo "Generating mutants with $PERC_DOUBLE_MUTANTS double mutants and $PERC_TRIPLE_MUTANTS triple mutants for $CDR_SEQ..."
-        python "$SCRIPT_DIR/get_mutants.py" \
+        python "$SCRIPT_DIR/get_mutants_scripts/get_mutants.py" \
             --sequence "$CDR_SEQ" \
             --perc_double_mutants "$PERC_DOUBLE_MUTANTS" \
             --perc_triple_mutants "$PERC_TRIPLE_MUTANTS" \
@@ -96,7 +98,7 @@ while read -r ANTIGEN _ CDR_SEQ _ _ EPITOPE; do
     # Step 3: Generate MAVENN input from AbsolutNoLib output
     generate_mavenn_input() {
         echo "Generating MAVENN input from AbsolutNoLib output..."
-        python -u "$SCRIPT_DIR/reformat_absolut_epitope.py" \
+        python -u "$SCRIPT_DIR/get_mutants_scripts/reformat_absolut_epitope.py" \
             --absolut_final_bindings_path "${DATA_DIR}/${PERC_DOUBLE_MUTANTS}_${PERC_TRIPLE_MUTANTS}_${ANTIGEN}FinalBindings_Process_1_Of_1.txt" \
             --mutant_file_path_with_dist "${DATA_DIR}/${ANTIGEN}_${PERC_DOUBLE_MUTANTS}_${PERC_TRIPLE_MUTANTS}_with_dist.txt" \
             --output_dir "$DATA_DIR" \
