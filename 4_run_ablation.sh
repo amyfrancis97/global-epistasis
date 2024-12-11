@@ -49,7 +49,7 @@ for ((i=start_idx; i<end_idx; i++)); do
     if [ -f "$test_file" ]; then
         # Submit a job for this pair of files
         echo "Submitting job for $base_name"
-        sbatch $SBATCH_SCRIPT sampling_strategies.sh "seed" $SAMPLING_TYPE "gpmap_type" "$trainval_file" "$test_file"
+        sbatch $SBATCH_SCRIPT ablation_analysis.sh "seed" $SAMPLING_TYPE "gpmap_type" "$trainval_file" "$test_file"
     else
         echo "No matching test file for $base_name"
     fi

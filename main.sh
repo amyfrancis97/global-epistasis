@@ -33,12 +33,19 @@ source config.sh
 #    sbatch ${SCRIPT_DIR}/run_jobs.sh 3_get_mutants.sh 0.005 0.0001 "$result_file"
 #done
 
-# Run models for different samples of data
-./sampling_wrapper.sh "all_mutants" "sample_all" "first_half"
-#./sampling_wrapper.sh "all_mutants" "sample_all" "second_half"
+# Run models for different samples of data including epitope switching
+./4_run_ablation.sh "all_mutants" "sample_all" "first_half"
+#./4_run_ablation.sh "all_mutants" "sample_all" "second_half"
 
-#./sampling_wrapper.sh "all_mutants" "sample_double_triples" "first_half"
-#./sampling_wrapper.sh "all_mutants" "sample_double_triples" "second_half"
+#./4_run_ablation.sh "all_mutants" "sample_double_triples" "first_half"
+#./4_run_ablation.sh "all_mutants" "sample_double_triples" "second_half"
+
+# Repeat but restrict to only mutations predicted to bind to the same epitope as the wild type CDR sequence
+#./4_run_ablation.sh "single_epitope" "sample_all" "first_half"
+#./4_run_ablation.sh "single_epitope" "sample_all" "second_half"
+
+#./4_run_ablation.sh "single_epitope" "sample_double_triples" "first_half"
+#./4_run_ablation.sh "single_epitope" "sample_double_triples" "second_half"
 
 # Get latent phenotype mappings for a given number of doubles and triples
 # This script saves all of the data required for generating latent phenotype plots into "results/plot_data/"
