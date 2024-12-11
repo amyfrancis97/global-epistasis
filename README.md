@@ -1,4 +1,4 @@
-# 🧬 Global Epistasis Models of Antibody-Antigen Interactions 
+# 🧬 Global Epistasis Models for Antibody-Antigen Interactions 
 
 ## 📖 Introduction and Overview 
 
@@ -7,10 +7,11 @@ This repository contains scripts associated with the Global Epistasis internship
 ## 🌳 Directory Structure
 ```bash
 .
-├── README.md                             # Project overview and usage instructions
+├── README.md                             # Project overview and usage instructions.
 ├── config.sh                             # Configuration settings for the pipeline- **This must be updated for the models to work!**
-├── main.sh                               # Main script used for executing pipeline
-├── 1_download_structures.sh              # Downloads the Absolut! structure files for complexes in data/global_epistasis_cdrs_greater_11.txt
+├── run_jobs.sh                           # Contains specifications for executing code on Slurm compute systems- **This must be updated to match the machine specifications!**
+├── main.sh                               # Main script used for executing the pipeline.
+├── 1_get_structures.sh              # Downloads the Absolut! structure files for complexes in data/global_epistasis_cdrs_greater_11.txt.
 ├── 2_get_11_mer.sh                       # Gets the best-binding 11-mer slide for the above CDR-H3 sequences, for sequences >11 amino acids.
 ├── 3_get_mutants.sh                      # Executes get_mutants.py to generate all single mutants from the above 11-mer, and a specified percentage of doubles and triples. Then this script obtains Absolut! binding affinities for all mutants and re-formats for MAVE-NN.
 ├── data/                          
@@ -52,12 +53,12 @@ conda activate <envname>
 nano config.sh
 ```
 
-2. **Update the job files to match compute specification.**
+2. **Update the job file to match compute specification.**
    
 ```bash
-nano *.sh
+nano run_jobs.sh
 ```
-Currently, job scripts use slurm. These job scripts will need to be updated to match the specifications of the machine that is in use.
+Currently, job script uses slurm. Theis job scripts will need to be updated to match the specifications of the machine that is in use.
 
 2. **Optional: Edit and execute the main.sh script.**
    
@@ -74,19 +75,19 @@ The main script executes the following job scripts:
 * 3_get_mutants.sh
 * sampling_wrapper.sh
 
-For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes scripts to generate all possible single mutants, and a specified percentage of double and triple mutants. Then it executes another script to obtain predicted Asbolut! binding affinities for each of the mutant sequences and reformats for MAVE-NN models.
+For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes scripts to generate all possible single mutants, and a specified percentage of double and triple mutants for each antigen in 'data/global_epistasis_cdrs_greater_11.txt'. Then it executes another script to obtain predicted Asbolut! binding affinities for each of the mutant sequences and reformats for MAVE-NN models.
 
 The default is for this script to obtain binding affinities for all singles, 50% of doubles, and 1% of triples, but these percentages can be specified as arguments within the main script.
 
 ## ℹ️ Job Script Details
 
-### Step 1: 1_download_structures.sh ###
+### Step 1: 1_get_structures.sh ###
 
 This script downloads the Absolut! structure files for the antigen complexes listed in 'data/global_epistasis_cdrs_greater_11.txt'
 
 Execution:
 ```bash
-sbatch 1_download_structures.sh
+sbatch run_jobs.sh 1_get_structures.sh
 ```
 
 ### Step 2: 2_get_11_mer.sh ###
@@ -94,7 +95,7 @@ This script then obtains the binding affinities for each of the structures from 
 
 Execution:
 ```bash
-sbatch 2_get_11_mer.sh $pdb_code $sequence
+sbatch run_jobs.sh 2_get_11_mer.sh $pdb_code $sequence
 ```
 
 In the *main.sh* script, $pdb_code is the antigen structure file and the $sequence is the CDR-H3 sequence of the antibody. These are extracted from data/global_epistasis_cdrs_greater_11.txt.
@@ -107,7 +108,7 @@ The default is for this script to obtain binding affinities for all singles, 50%
 
 Execution:
 ```bash
-sbatch 3_get_mutants.sh --double 0.5 --triple 0.01 "$result_file"
+sbatch run_jobs.sh 3_get_mutants.sh --double 0.5 --triple 0.01 "$result_file"
 ```
 
 ### Step 4: sampling_wrapper.sh ###
