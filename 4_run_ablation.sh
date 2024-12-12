@@ -3,7 +3,6 @@
 source config.sh 
 
 # Set directory paths
-run_jobs.sh
 SBATCH_SCRIPT="$SCRIPT_DIR/run_jobs.sh"
 
 # Specify the filter (either "all_mutants" or "single_epitope")

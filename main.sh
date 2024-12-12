@@ -6,7 +6,7 @@ source config.sh
 # Download the Absolut! structure files
 #sbatch run_jobs.sh 1_get_structures.sh
 
-#cd $ABSOLUT_DIR
+#d $ABSOLUT_DIR
 
 # Obtain the best-binding 11-mer slide of the CDR sequence for each antibody
 # Obtains the corresponding epitope for the selected CDR sequence
@@ -28,9 +28,9 @@ source config.sh
 # Loop through each file that matches the pattern *results.txt
 # Gets mutants for each antigen-antibody complex
 #for result_file in "$ABSOLUT_DIR"/*results.txt; do
-    # Submit the job using sbatch for each result file
- #   echo "Submitting job for $result_file"
-#    sbatch ${SCRIPT_DIR}/run_jobs.sh 3_get_mutants.sh 0.005 0.0001 "$result_file"
+ #   # Submit the job using sbatch for each result file
+  #  echo "Submitting job for $result_file"
+   # sbatch ${SCRIPT_DIR}/run_jobs.sh 3_get_mutants.sh 0.00005 0.000001 "$result_file"
 #done
 
 # Run models for different samples of data including epitope switching
