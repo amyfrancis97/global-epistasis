@@ -2,7 +2,7 @@
 
 ## Introduction and Overview 
 
-This repository contains scripts for the Global Epistasis Project, which focuses on predicting antibody-antigen interactions using global epistasis models. The pipeline generates mutant datasets, computes binding affinities using Absolut!, and trains global epistasis models (MAVE-NN) to predict binding affinities of unseen double and triple mutants.
+This repository contains scripts for the Global Epistasis Project, which focuses on predicting antibody-antigen interactions for double and triple mutant antibody sequences. The pipeline generates mutant datasets for a given CDR-H3 region, computes their binding affinities using Absolut!, and trains global epistasis models (MAVE-NN) to predict binding affinities of unseen double and triple mutants.
 
 ##  Directory Structure
 ```bash
