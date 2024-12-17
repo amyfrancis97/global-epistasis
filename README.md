@@ -142,7 +142,7 @@ Trains models for specified numbers of doubles/triples and plots latent phenotyp
 ```
 Here, 1000 doubles and 1000 triples are sampled for training.
 
-### 📝 Notes
+### Notes
 * Ensure Absolut! software is set up correctly before executing the scripts.
 * Update paths and Slurm configurations in config.sh and run_jobs.sh.
 * Percentages for double and triple mutants can be adjusted in main.sh.
