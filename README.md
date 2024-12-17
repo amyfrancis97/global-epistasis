@@ -7,38 +7,38 @@ This repository contains scripts for the Global Epistasis Project, which focuses
 ##  Directory Structure
 ```bash
 .
-├── README.md                             # Project overview and usage instructions
-├── config.sh                             # Configuration file for the pipeline (must be updated!)
-├── run_jobs.sh                           # Job specifications for Slurm compute systems
-├── main.sh                               # Main script to execute the entire pipeline
-├── 1_get_structures.sh                   # Downloads Absolut! structure files for specified complexes
-├── 2_get_11_mer.sh                       # Finds best-binding 11-mer slides for CDR-H3 sequences
-├── 3_get_mutants.sh                      # Generates mutants and computes binding affinities
-├── 4_run_ablation.sh                     # Runs ablation analysis for antigen complexes
-├── 5_get_latent_phenotype_plots.sh       # Trains models and generates phenotype plots
-├── ablation_analysis.sh                  # Executes ablation analysis Python script
-├── data/                                 # Input files and data
+├── README.md                                # Project instructions
+├── config.sh                                # Configuration file for the pipeline (must be updated!)
+├── run_jobs.sh                              # Job specifications for Slurm compute systems
+├── main.sh                                  # Main script to execute the entire pipeline
+├── 1_get_structures.sh                      # Downloads Absolut! structure files for specified complexes
+├── 2_get_11_mer.sh                          # Finds best-binding 11-mer slides for CDR-H3 sequences
+├── 3_get_mutants.sh                         # Generates mutants and computes binding affinities
+├── 4_run_ablation.sh                        # Runs ablation analysis for antigen complexes
+├── 5_get_latent_phenotype_plots.sh          # Trains models and generates phenotype plots
+├── ablation_analysis.sh                     # Executes ablation analysis Python script
+├── data/                                    # Input files and data
 │   └── global_epistasis_cdrs_greater_11.txt # List of antigens and CDR-H3 sequences >11 amino acids
 ├── get_mutants_scripts/
-│   ├── get_mutants.py                    # Generates mutant datasets (singles, doubles, triples)
-│   └── reformat_absolut_epitope.py       # Reformats data for single-epitope analysis
+│   ├── get_mutants.py                       # Generates mutant datasets (singles, doubles, triples)
+│   └── reformat_absolut.py                  # Reformats data for MAVE-NN models.
 ├── sampling_scripts/
-│   ├── config.py                         # Directory paths for input and output
-│   ├── utils.py                          # Shared functions for MAVE-NN models
-│   ├── get_latent_phenotype_info.py      # Saves latent phenotype data for plotting
-│   ├── sample_data_all.py                # Sub-samples training data
-│   └── sample_data_doubles_triples.py    # Sub-samples double and triple mutants
+│   ├── config.py                            # Directory paths for input and output
+│   ├── utils.py                             # Shared functions for MAVE-NN models
+│   ├── get_latent_phenotype_info.py         # Saves latent phenotype data for plotting
+│   ├── sample_data_all.py                   # Sub-samples training data
+│   └── sample_data_doubles_triples.py       # Sub-samples double and triple mutants
 ├── visualisation/
-│   ├── config.py                         # Config file for visualisation scripts and notebooks
-│   ├── ablation_analysis.ipynb           # Notebook for visualising ablation analysis
-│   ├── compare_epitope_switching.ipynb   # Notebook for comparing results with and without epitope switching
-│   ├── mavenn_visualisation_modules.py   # Contains all visualisation functions
-│   ├── plot_affinity_distributions.ipynb # Visualise binding affinity distributions for mutants from a single antigen complex
-│   └── plot_latent_phenotypes.py         # Plots observed vs predicted phenotypes
+│   ├── config.py                            # Config file for visualisation scripts and notebooks
+│   ├── ablation_analysis.ipynb              # Notebook for visualising ablation analysis
+│   ├── compare_epitope_switching.ipynb      # Notebook for comparing results with and without epitope switching
+│   ├── mavenn_visualisation_modules.py      # Contains all visualisation functions
+│   ├── plot_affinity_distributions.ipynb    # Visualise binding affinity distributions for mutants from a single antigen complex
+│   └── plot_latent_phenotypes.py            # Plots observed vs predicted phenotypes
 └── antibody_language_models/
-    ├── get_antibert_likelihoods.py       # Generates mutations using AntiBERT likelihoods
-    ├── get_esm_likelihoods.py            # Generates mutations using ESM likelihoods
-    └── get_iglm_likelihoods.py           # Generates mutations using IGLM likelihoods
+    ├── get_antibert_likelihoods.py          # Generates mutations using AntiBERT likelihoods
+    ├── get_esm_likelihoods.py               # Generates mutations using ESM likelihoods
+    └── get_iglm_likelihoods.py              # Generates mutations using IGLM likelihoods
 
 ```
 
@@ -124,7 +124,7 @@ Generates mutants and computes **Absolut!** binding affinities:
 sbatch run_jobs.sh 3_get_mutants.sh --double 0.5 --triple 0.01 <result_file>
 ```
 
-#### Step 4:`run_ablation.sh`
+#### Step 4:`4_run_ablation.sh`
 Runs MAVE-NN global epistasis models.
 
 ```bash
