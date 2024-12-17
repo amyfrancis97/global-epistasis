@@ -46,6 +46,13 @@ Install dependencies using conda (update ```<envname>``` to the environment name
 conda env create --name <envname> --file=global_epistasis.yml
 conda activate <envname>
 ```
+
+### **Absolut! Setup:**
+![image](https://github.com/user-attachments/assets/3c1a64b3-4bfc-4b33-bb3a-bb4dd946c72e)
+
+In order to run these scripts, Absolut! software must first be set up. For this analyis, we only require the ./AbsolutNoLib version of the software to be set up, which allows analysis on pre-computed structures. For more information on how to set up this software, please follow the documentation in the [Absolut! GitHub Repository](https://github.com/csi-greifflab/Absolut).
+
+
 ## 💻 Usage
 1. **Update the config file to contain the paths in which this repository has been cloned.**
    
@@ -73,7 +80,8 @@ The main script executes the following job scripts:
 * 1_download_structures.sh
 * 2_get_11_mer.sh
 * 3_get_mutants.sh
-* sampling_wrapper.sh
+* 4_run_ablation.sh
+* 5_get_latent_phenotype_plots.sh
 
 For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes scripts to generate all possible single mutants, and a specified percentage of double and triple mutants for each antigen in 'data/global_epistasis_cdrs_greater_11.txt'. Then it executes another script to obtain predicted Asbolut! binding affinities for each of the mutant sequences and reformats for MAVE-NN models.
 
@@ -82,7 +90,7 @@ The default is for this script to obtain binding affinities for all singles, 50%
 ## ℹ️ Data Details: **data/global_epistasis_cdrs_greater_11.txt**
 This text file contains the names of the antigen structure files and the corresponding CDR-H3 sequence. To obtain these sequences, the heavy chain sequence was obtained from the antibody using NCBI, and then the CDR-H3 region was predicted using abYsis. Only antigen structure files where the corresponding antibody CDR-H3 region was predicted to be >11 amino acids long was retained (due to Absolut! predictions working on 11-mer sliding windows). 
 
-## ℹ️ Job Script Details
+## ℹ️ Script Details
 
 ### Step 1: 1_get_structures.sh ###
 This script reads in the antigen structure file names from *data/global_epistasis_cdrs_greater_11.txt*. It then gets the filepath info using ./AbsolutNoLib and downloads the corresponding structure files. 
@@ -93,25 +101,31 @@ sbatch run_jobs.sh 1_get_structures.sh
 ```
 
 ### Step 2: 2_get_11_mer.sh ###
-This script then obtains the binding affinities for each of the structures from Absolut!. If the CDR-H3 sequence is greater than 11 amino acids, this script obtains the binding affinity for each 11-mer slide, and returns the 11-mer CDR sequence that results in the most negative binding affinity.
+Once the structure files have been downloaded from the Absolut! software (above), this script then takes the corresponding CDR-H3 sequence from *data/global_epistasis_cdrs_greater_11.txt* and runs them through the software to obtain the predicted binding affinities. *./AbsolutNoLib singleBinding* predicts the binding of each 11-mer slide for a given sequence. Therefore, for CDR-H3 sequences longer than 11 amino acids long, this script then selects the best-binding 11-mer slide for each antigen complex (e.g., the most negative).
 
 Execution:
 ```bash
 sbatch run_jobs.sh 2_get_11_mer.sh $pdb_code $sequence
 ```
 
-In the *main.sh* script, $pdb_code is the antigen structure file and the $sequence is the CDR-H3 sequence of the antibody. These are extracted from data/global_epistasis_cdrs_greater_11.txt.
+Where $pdb_code is the antigen structure file and the $sequence is the CDR-H3 sequence of the antibody. These are extracted from *data/global_epistasis_cdrs_greater_11.txt*.
 
 ### Step 3: 3_get_mutants.sh ###
+For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes python scripts that generate all possible single mutants, and a specified percentage of double and triple mutants. The default is to generate all single mutants, 50% of possible double mutants, and 5% of triple mutants.
 
-For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), this executes scripts to generate all possible single mutants, and a specified percentage of double and triple mutants. Then it executes another script to obtain predicted Asbolut! binding affinities for each of the mutant sequences and reformats for MAVE-NN models.
+Once the mutant sequences have been randomly generated, the script then runs *./AbsolutNoLib repertoire* to obtain the binding affinities for each of the mutants, and finally generates a file that can be used as input for MAVE-NN software. For each antigen, the following output files are generated:
 
-The default is for this script to obtain binding affinities for all singles, 50% of doubles, and 1% of triples, but these percentages can be specified as arguments within the main script:
+* trainval (all_mutants)     # Trainval file for all mutant sequences across all epitopes
+* test (all_mutants)         # Test file for all mutant sequences across all epitopes
+* trainval (single epitope)  # Trainval file filtered to only keep sequences that are predicted to bind to the same epitope as the wild-type sequence.
+* test (single_epitope)      # Test file filtered to only keep sequences that are predicted to bind to the same epitope as the wild-type sequence.
 
 Execution:
 ```bash
 sbatch run_jobs.sh 3_get_mutants.sh --double 0.5 --triple 0.01 "$result_file"
 ```
+
+Where *$result_file* is the resulting binding affinity file for each antigen that contains the best-binding 11-mer CDR-H3.
 
 ### Step 4: sampling_wrapper.sh ###
 This job script runs MAVE-NN global epistasis models for different numbers of double and triples. sampling_wrapper.sh must have 3 arguments passed to it:
