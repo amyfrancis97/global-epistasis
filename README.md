@@ -48,7 +48,7 @@ conda activate <envname>
 ```
 
 ### **Absolut! Setup:**
-![image](https://github.com/user-attachments/assets/3c1a64b3-4bfc-4b33-bb3a-bb4dd946c72e)
+<img src="https://github.com/user-attachments/assets/3c1a64b3-4bfc-4b33-bb3a-bb4dd946c72e" alt="image" width="300"/>
 
 In order to run these scripts, Absolut! software must first be set up. For this analyis, we only require the ./AbsolutNoLib version of the software to be set up, which allows analysis on pre-computed structures. For more information on how to set up this software, please follow the documentation in the [Absolut! GitHub Repository](https://github.com/csi-greifflab/Absolut).
 
