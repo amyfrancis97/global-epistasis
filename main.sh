@@ -35,15 +35,14 @@ source config.sh
 
 # Run models for different samples of data including epitope switching
 ./4_run_ablation.sh "all_mutants" "sample_all"
-
 #./4_run_ablation.sh "all_mutants" "sample_double_triples"
 
 # Repeat but restrict to only mutations predicted to bind to the same epitope as the wild type CDR sequence
 #./4_run_ablation.sh "single_epitope" "sample_all" 
-
 #./4_run_ablation.sh "single_epitope" "sample_double_triples"
 
 # Get latent phenotype mappings for a given number of doubles and triples
 # This script saves all of the data required for generating latent phenotype plots into "results/plot_data/"
-#sbatch latent_phenotype_wrapper.sh "all_mutants" 1000 1000 # Train model using all singles, 1000 doubles and 1000 triples
+#./5_get_latent_phenotype_plots.sh "all_mutants" 1000 1000 # Train model using all singles, 1000 doubles and 1000 triples
+#./5_get_latent_phenotype_plots.sh "single_epitope" 1000 1000 # Train model using all singles, 1000 doubles and 1000 triples
 
