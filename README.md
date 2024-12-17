@@ -29,6 +29,11 @@ This repository contains scripts for the Global Epistasis Project, which focuses
 │   ├── sample_data_all.py                # Sub-samples training data
 │   └── sample_data_doubles_triples.py    # Sub-samples double and triple mutants
 ├── visualisation/
+│   ├── config.py                         # Config file for visualisation scripts and notebooks
+│   ├── ablation_analysis.ipynb           # Notebook for visualising ablation analysis
+│   ├── compare_epitope_switching.ipynb   # Notebook for comparing results with and without epitope switching
+│   ├── mavenn_visualisation_modules.py   # Contains all visualisation functions
+│   ├── plot_affinity_distributions.ipynb # Visualise binding affinity distributions for mutants from a single antigen complex
 │   └── plot_latent_phenotypes.py         # Plots observed vs predicted phenotypes
 └── esm/
     ├── get_antibert_likelihoods.py       # Generates mutations using AntiBERT likelihoods
