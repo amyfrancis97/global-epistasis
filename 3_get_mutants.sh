@@ -98,7 +98,7 @@ while read -r ANTIGEN _ CDR_SEQ _ _ EPITOPE; do
     # Step 3: Generate MAVENN input from AbsolutNoLib output
     generate_mavenn_input() {
         echo "Generating MAVENN input from AbsolutNoLib output..."
-        python -u "$SCRIPT_DIR/get_mutants_scripts/reformat_absolut_epitope.py" \
+        python -u "$SCRIPT_DIR/get_mutants_scripts/reformat_absolut.py" \
             --absolut_final_bindings_path "${DATA_DIR}/${PERC_DOUBLE_MUTANTS}_${PERC_TRIPLE_MUTANTS}_${ANTIGEN}FinalBindings_Process_1_Of_1.txt" \
             --mutant_file_path_with_dist "${DATA_DIR}/${ANTIGEN}_${PERC_DOUBLE_MUTANTS}_${PERC_TRIPLE_MUTANTS}_with_dist.txt" \
             --output_dir "$DATA_DIR" \
