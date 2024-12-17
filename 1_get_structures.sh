@@ -9,10 +9,10 @@ while read -r line; do
     # Extract the first column (PDB code)
     pdb_code=$(echo "$line" | awk '{print $1}')
     
-    # Run the AbsolutNoLib command with the pdb_code
+    # Run AbsolutNoLib with the pdb_code
     ./AbsolutNoLib info_filenames "$pdb_code" > "${pdb_code}_file_info.txt"
     
-    # Use grep to find the curl command and execute it
+    # Use grep to find the curl command and execute it (Downloads structure file for each antigen complex)
     bash <(grep 'curl' "${pdb_code}_file_info.txt")
     
 done < ${SCRIPT_DIR}/data/global_epistasis_cdrs_greater_11.txt
