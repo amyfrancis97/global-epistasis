@@ -10,6 +10,7 @@ echo $sequence
 
 cd $ABSOLUT_DIR
 
+# For each antigen structure file, get the binding affinities for each 11-mer slide in the corresponding CDR-H3 region.
 ./AbsolutNoLib singleBinding "$pdb_code" "$sequence" > "${pdb_code}_results.tmp"
 
 wait
