@@ -8,7 +8,6 @@ SBATCH_SCRIPT="$SCRIPT_DIR/run_jobs.sh"
 # Specify the filter (either "all_mutants" or "single_epitope")
 FILTER=$1  # First argument passed to the wrapper script, e.g., "all_mutants" or "single_epitope"
 SAMPLING_TYPE=$2 # Second argument passed to the wrapper script, e.g., "sample_all" or "sample_double_triples"
-BATCH=$3  # Third argument passed to the wrapper script, e.g., "first_half" or "second_half"
 
 # Check if the filter is valid
 if [ "$FILTER" != "all_mutants" ] && [ "$FILTER" != "single_epitope" ]; then
@@ -19,26 +18,14 @@ fi
 # Create an array of trainval files
 trainval_files=(${DATA_DIR}/*${FILTER}*_trainval_df.txt)
 
-# Count total number of files
-total_files=${#trainval_files[@]}
-half=$((total_files / 2))
-
-# Determine the range of indices based on the batch
-if [ "$BATCH" == "first_half" ]; then
-    start_idx=0
-    end_idx=$half
-elif [ "$BATCH" == "second_half" ]; then
-    start_idx=$half
-    end_idx=$total_files
-else
-    echo "Invalid batch specified. Please use 'first_half' or 'second_half'."
+# Check if trainval files exist
+if [ ${#trainval_files[@]} -eq 0 ]; then
+    echo "No trainval files found matching the filter '${FILTER}'."
     exit 1
 fi
 
-# Iterate over the selected range of trainval/test pairs
-for ((i=start_idx; i<end_idx; i++)); do
-    trainval_file=${trainval_files[$i]}
-    
+# Iterate over all trainval/test pairs
+for trainval_file in "${trainval_files[@]}"; do
     # Extract the base name from the trainval file
     base_name=$(basename "$trainval_file" "_trainval_df.txt")
 
