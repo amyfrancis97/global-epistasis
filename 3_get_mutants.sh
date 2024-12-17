@@ -2,7 +2,7 @@
 
 source config.sh
 
-# Function to print usage instructions
+# Print usage instructions
 usage() {
     echo "Usage: $0 [--double <percentage_double>] [--triple <percentage_triple>] <input_file>"
     echo "Example: $0 --double 0.5 --triple 0.05 input_file.txt"
@@ -81,7 +81,7 @@ while read -r ANTIGEN _ CDR_SEQ _ _ EPITOPE; do
             echo "AbsolutNoLib execution completed successfully."
         fi
 
-        # Validate that the final bindings file is two lines longer than the repertoire file
+        # Validate that the final bindings file is two lines longer than the repertoire file (including headers)
         echo "Validating the length of the final bindings file..."
         REPERTOIRE_LINE_COUNT=$(wc -l < "$REPERTOIRE_FILE")
         FINAL_BINDINGS_LINE_COUNT=$(wc -l < "$FINAL_BINDINGS_FILE")
@@ -91,7 +91,7 @@ while read -r ANTIGEN _ CDR_SEQ _ _ EPITOPE; do
             echo "Repertoire file lines: $REPERTOIRE_LINE_COUNT"
             echo "Final bindings file lines: $FINAL_BINDINGS_LINE_COUNT"
         else
-            echo "Validation successful: Final bindings file is two lines longer than the repertoire file."
+            echo "Validation successful: Final bindings file is the correct size."
         fi
     }
 
