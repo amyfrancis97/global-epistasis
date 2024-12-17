@@ -20,4 +20,25 @@ TARGET_SCRIPT=$1
 shift
 
 # Run the target script with the remaining arguments
-bash "$TARGET_SCRIPT" "$@"
+#bash "$TARGET_SCRIPT" "$@"
+
+# Check if TARGET_SCRIPT variable is set
+if [ -z "$TARGET_SCRIPT" ]; then
+  echo "Error: TARGET_SCRIPT is not set."
+  exit 1
+fi
+
+echo $TARGET_SCRIPT
+echo "$@"
+
+# Check the file extension and run accordingly
+if [[ "$TARGET_SCRIPT" == *.sh ]]; then
+  echo "Running shell script: $TARGET_SCRIPT"
+  bash "$TARGET_SCRIPT" "$@"
+elif [[ "$TARGET_SCRIPT" == *.py ]]; then
+  echo "Running Python script: $TARGET_SCRIPT"
+  python -u "$TARGET_SCRIPT" "$@"
+else
+  echo "Error: Unsupported script type. Only .sh and .py files are supported."
+  exit 1
+fi
