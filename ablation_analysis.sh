@@ -18,18 +18,7 @@ cd $SCRIPT_DIR/sampling_scripts
 # Define data paths
 
 # Check which script to run based on the argument passed
-if [ "$SCRIPT_TO_RUN" == "active_learning" ]; then
-    echo "Running Active Learning Batches"
-    python -u active_learning_balanced.py \
-        --name $SEQ_SOURCE \
-        --trainval_file ${TRAINVAL_DF} \
-        --test_file ${TEST_DF} \
-        --output_path ${OUTPUT_PATH}/${SEQ_SOURCE} \
-        --gpmap_type $GPMAP_TYPE \
-        --n_queries 400 \
-        --query_size 10
-
-elif [ "$SCRIPT_TO_RUN" == "sample_all" ]; then
+if [ "$SCRIPT_TO_RUN" == "sample_all" ]; then
     echo "Running Sample All Script"
     python -u sample_data_all.py \
         --name $SEQ_SOURCE \
