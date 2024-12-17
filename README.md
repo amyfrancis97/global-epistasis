@@ -71,7 +71,7 @@ nano config.sh
 nano run_jobs.sh
 ```
 
-2. **Make the main script executable and customise if necessary**:
+2. **Make the scripts executable and customise if necessary**:
    
 ```bash
 chmod +x main.sh
