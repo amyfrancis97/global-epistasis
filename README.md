@@ -96,7 +96,7 @@ Extracted from antibody heavy chains using NCBI.
 
 ## Script Details
 
-**Step 1: `1_get_structures.sh`**
+#### Step 1: `1_get_structures.sh`
 Downloads antigen structure files listed in `data/global_epistasis_cdrs_greater_11.txt` using **Absolut!**.
 
 **Execution**:
@@ -104,7 +104,7 @@ Downloads antigen structure files listed in `data/global_epistasis_cdrs_greater_
 sbatch run_jobs.sh 1_get_structures.sh
 ```
 
-### Step 2: `2_get_11_mer.sh`
+#### Step 2: `2_get_11_mer.sh`
 Finds the best-binding 11-mer slide for each CDR-H3 sequence.
 
 Execution:
