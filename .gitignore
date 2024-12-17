@@ -1,8 +1,8 @@
 data/*trainval_df.txt
 data/*test_df.txt
 data/*0.*
-esm/*.npy*
-esm/*csv*
-esm/*pkl*
+antibody_language_models/*.npy*
+antibody_language_models/*csv*
+antibody_language_models/*pkl*
 results
 logs
