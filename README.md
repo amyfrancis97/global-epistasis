@@ -96,7 +96,7 @@ Extracted from antibody heavy chains using NCBI.
 
 ## Script Details
 
-### Step 1: `1_get_structures.sh`
+**Step 1: `1_get_structures.sh`**
 Downloads antigen structure files listed in `data/global_epistasis_cdrs_greater_11.txt` using **Absolut!**.
 
 **Execution**:
