@@ -79,11 +79,13 @@ For the best-binding 11-mer CDR-H3 sequence (obtained in the previous script), t
 
 The default is for this script to obtain binding affinities for all singles, 50% of doubles, and 1% of triples, but these percentages can be specified as arguments within the main script.
 
+## ℹ️ Data Details: **data/global_epistasis_cdrs_greater_11.txt**
+This text file contains the names of the antigen structure files and the corresponding CDR-H3 sequence. To obtain these sequences, the heavy chain sequence was obtained from the antibody using NCBI, and then the CDR-H3 region was predicted using abYsis. Only antigen structure files where the corresponding antibody CDR-H3 region was predicted to be >11 amino acids long was retained (due to Absolut! predictions working on 11-mer sliding windows). 
+
 ## ℹ️ Job Script Details
 
 ### Step 1: 1_get_structures.sh ###
-
-This script downloads the Absolut! structure files for the antigen complexes listed in 'data/global_epistasis_cdrs_greater_11.txt'
+This script reads in the antigen structure file names from *data/global_epistasis_cdrs_greater_11.txt*. It then gets the filepath info using ./AbsolutNoLib and downloads the corresponding structure files. 
 
 Execution:
 ```bash
