@@ -92,7 +92,7 @@ Extracted from antibody heavy chains using NCBI.
 
 ## 🔍 Script Details
 
-**Step 1:** `1_get_structures.sh` 
+### Step 1: `1_get_structures.sh`
 Downloads antigen structure files listed in `data/global_epistasis_cdrs_greater_11.txt` using **Absolut!**.
 
 **Execution**:
@@ -100,7 +100,7 @@ Downloads antigen structure files listed in `data/global_epistasis_cdrs_greater_
 sbatch run_jobs.sh 1_get_structures.sh
 ```
 
-**Step 2:** `2_get_11_mer.sh`
+### Step 2: `2_get_11_mer.sh`
 Finds the best-binding 11-mer slide for each CDR-H3 sequence.
 
 Execution:
@@ -109,7 +109,7 @@ sbatch run_jobs.sh 2_get_11_mer.sh <pdb_code> <sequence>
 ```
 Replace `<pdb_code>` with the antigen file name and `<sequence>` with the CDR-H3 sequence.
 
-**Step 3:** `3_get_mutants.sh`
+### Step 3: `3_get_mutants.sh`
 Generates mutants and computes **Absolut!** binding affinities:
 
 * Singles: All possible single mutants
@@ -120,7 +120,7 @@ Generates mutants and computes **Absolut!** binding affinities:
 sbatch run_jobs.sh 3_get_mutants.sh --double 0.5 --triple 0.01 <result_file>
 ```
 
-**Step 4:** `run_ablation.sh`
+### Step 4:`run_ablation.sh`
 Runs MAVE-NN global epistasis models.
 
 ```bash
@@ -130,7 +130,7 @@ Runs MAVE-NN global epistasis models.
 * `"all_mutants"`: Includes all mutants. Use `"single_epitope"` for epitope-constrained analysis.
 * `"sample_all"`: Randomly samples doubles/triples. Use `"sample_double_triples"` for specific sampling.
 
-**Step 5:** `5_get_latent_phenotype_plots.sh`
+### Step 5: `5_get_latent_phenotype_plots.sh`
 Trains models for specified numbers of doubles/triples and plots latent phenotypes.
 
 ```bash
@@ -138,7 +138,7 @@ Trains models for specified numbers of doubles/triples and plots latent phenotyp
 ```
 Here, 1000 doubles and 1000 triples are sampled for training.
 
-**📝 Notes**
+### 📝 Notes
 * Ensure Absolut! software is set up correctly before executing the scripts.
 * Update paths and Slurm configurations in config.sh and run_jobs.sh.
 * Percentages for double and triple mutants can be adjusted in main.sh.
