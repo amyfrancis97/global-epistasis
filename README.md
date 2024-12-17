@@ -1,10 +1,10 @@
-# 🧬 Global Epistasis Models for Antibody-Antigen Interactions 
+# Global Epistasis Models for Antibody-Antigen Interactions 
 
-## 📖 Introduction and Overview 
+## Introduction and Overview 
 
 This repository contains scripts for the Global Epistasis Project, which focuses on predicting antibody-antigen interactions using global epistasis models. The pipeline generates mutant datasets, computes binding affinities using Absolut!, and trains global epistasis models (MAVE-NN) to predict binding affinities of unseen double and triple mutants.
 
-## 📂  Directory Structure
+##  Directory Structure
 ```bash
 .
 ├── README.md                             # Project overview and usage instructions
@@ -37,9 +37,9 @@ This repository contains scripts for the Global Epistasis Project, which focuses
 
 ```
 
-## 🛠️ Setup
+##  Setup
 
-### 🐍 **Anaconda Setup:**
+### **Anaconda Setup:**
 Install dependencies using conda:
 
 ```bash
@@ -53,7 +53,7 @@ Replace `<envname>` with your desired environment name, e.g., `global_epistasis`
 To run these scripts, you need to set up Absolut! software. For this project, only the `./AbsolutNoLib` version is required, which works with pre-computed structures. Follow the documentation in the  [Absolut! GitHub Repository](https://github.com/csi-greifflab/Absolut).
 
 
-## 💻 Usage
+## Usage
 1. **Update the configuration file** with repository paths:
    
 ```bash
@@ -73,7 +73,6 @@ chmod +x main.sh
 nano main.sh # Update to compute specifications.
 ./main.sh
 ```
-
 The main.sh script executes the following jobs:
 
 * `1_get_structures.sh`
@@ -82,7 +81,7 @@ The main.sh script executes the following jobs:
 * `4_run_ablation.sh`
 * `5_get_latent_phenotype_plots.sh`
 
-## ℹ️ **Data Details**: 
+## **Data Details**: 
 `data/global_epistasis_cdrs_greater_11.txt`
 This file contains antigen structure file names and corresponding antibody CDR-H3 sequences predicted to be ≥11 amino acids long. The sequences were:
 
@@ -90,7 +89,7 @@ Extracted from antibody heavy chains using NCBI.
 1. Analysed for CDR-H3 regions using abYsis.
 2. Antigens with CDR-H3 lengths >11 amino acids were retained, as Absolut! predictions require 11-mer sliding windows.
 
-## 🔍 Script Details
+## Script Details
 
 ### Step 1: `1_get_structures.sh`
 Downloads antigen structure files listed in `data/global_epistasis_cdrs_greater_11.txt` using **Absolut!**.
