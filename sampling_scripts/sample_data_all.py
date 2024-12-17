@@ -5,8 +5,7 @@ import gc
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from utils import *  # Assuming necessary functions like fit_model, calculate_metrics, etc.
-#from config import *  # Assuming necessary configuration values
+from utils import *  
 
 # Random sampling implementation
 def random_sample_experiment(name, trainval_file, test_file, num_samples_list, gpmap_types, output_path):
@@ -56,7 +55,7 @@ def random_sample_experiment(name, trainval_file, test_file, num_samples_list, g
             print(metric)
             results.append(metric)
 
-        # Clean up memory by deleting models and collecting garbage
+        # Clean up memory by deleting models
         del model
         gc.collect()
 

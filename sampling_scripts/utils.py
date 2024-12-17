@@ -12,7 +12,7 @@ import os
 from sklearn.model_selection import train_test_split
 
 
-# Function to calculate evaluation metrics
+# Calculate evaluation metrics
 def calculate_metrics(model, test_dataset):
     y_test = test_dataset['y']
     x_test = test_dataset['x']    
@@ -26,14 +26,9 @@ def calculate_metrics(model, test_dataset):
     # Compute Spearman's Rho
     spearman_rho, _ = spearmanr(yhat_test.ravel(), y_test)
 
-#    mse = mean_squared_error(y_test, y_pred)
-    #r2 = r2_score(y_test, y_pred)
-
-    #spearman_rho, _ = spearmanr(y_test, y_pred)
-
     return mse, r2, spearman_rho
 
-# Function to fit the model
+# Fit the model
 def fit_model(trainval_df, gpmap_type):
     index_first = trainval_df.index.tolist()[0]
     L = len(trainval_df.loc[index_first, 'x'])
@@ -45,7 +40,7 @@ def fit_model(trainval_df, gpmap_type):
         regression_type='GE',
         gpmap_type=gpmap_type,
         ge_nonlinearity_type='nonlinear',
-        ge_nonlinearity_monotonic=False
+        ge_nonlinearity_monotonic=False # This can be set to true
     )
 
     # Set the data
@@ -56,7 +51,7 @@ def fit_model(trainval_df, gpmap_type):
 
     return model
 
-# Function to compute uncertainty using Monte Carlo Dropout
+# Compute uncertainty using Monte Carlo Dropout
 def compute_uncertainty_mc_dropout(model, remaining_pool, num_passes=10):
     x_remaining = remaining_pool['x'].tolist()
     all_predictions = []
@@ -68,7 +63,7 @@ def compute_uncertainty_mc_dropout(model, remaining_pool, num_passes=10):
     uncertainty = np.std(all_predictions, axis=0)
     return uncertainty
 
-# Function to plot metrics vs sample size
+# Plot metrics vs sample size
 def plot_sample_size_metrics(results, models=['additive', 'neighbor', 'pairwise', 'blackbox']):
     metrics = ['mse', 'r2', 'spearman']
     palette = sns.color_palette("husl", len(models))
@@ -94,10 +89,10 @@ def plot_sample_size_metrics(results, models=['additive', 'neighbor', 'pairwise'
     plt.legend(models)
     plt.show()
 
-# Function to compute uncertainty based on residuals
+# Compute uncertainty based on residuals
 def compute_uncertainty(model, remaining_pool):
     x_remaining = remaining_pool['x'].tolist()
-    y_true = remaining_pool['y'].values  # Ensure you have access to true labels in remaining_pool
+    y_true = remaining_pool['y'].values
 
     # Compute predictions
     y_pred = model.x_to_yhat(x_remaining)
@@ -105,64 +100,6 @@ def compute_uncertainty(model, remaining_pool):
     # Compute residuals
     residuals = np.abs(y_true - y_pred.ravel())
     
-    return residuals  # Larger residuals indicate higher uncertainty
+    return residuals 
 
-# Function to fit the model
-def fit_model_linear_lp_mapping(trainval_df, gpmap_type, linear=False):
-    """
-    Fits a MAVE-NN model to the given training/validation dataset.
-    
-    Parameters:
-        trainval_df (pd.DataFrame): Training and validation dataset.
-        gpmap_type (str): The type of GP map to use ('additive', 'neighbor', 'pairwise', 'blackbox').
-        linear (bool): Whether to enforce a linear mapping for the latent phenotype vs measurement.
-    
-    Returns:
-        model: A trained MAVE-NN model.
-    """
-    index_first = trainval_df.index.tolist()[0]
-    L = len(trainval_df.loc[index_first, 'x'])
-
-    # Default model settings
-    default_model_kwargs = {
-        'L': L,
-        'alphabet': 'protein*',
-        'regression_type': 'GE',
-        'ge_noise_model_type': 'SkewedT',
-        'ge_heteroskedasticity_order': 2
-    }
-
-    # Default fitting settings
-    default_fit_kwargs = {
-        'learning_rate': .001,
-        'epochs': 5,
-        'batch_size': 200,
-        'early_stopping': True,
-        'early_stopping_patience': 30,
-        'linear_initialization': False,
-        'verbose': False
-    }
-
-    # Adjust settings based on gpmap_type
-    if gpmap_type == 'pairwise':
-        default_fit_kwargs['batch_size'] = 50
-    elif gpmap_type == 'blackbox':
-        default_model_kwargs['gpmap_kwargs'] = {'hidden_layer_sizes': [10] * 5, 'features': 'pairwise'}
-        default_fit_kwargs['learning_rate'] = 0.0005
-        default_fit_kwargs['batch_size'] = 50
-        default_fit_kwargs['early_stopping_patience'] = 10
-
-    # Adjust for linear mapping if specified
-    if linear:
-        default_model_kwargs['ge_nonlinearity_type'] = 'linear'
-        default_model_kwargs['ge_nonlinearity_monotonic'] = False  # Linear maps are inherently monotonic
-    else:
-        default_model_kwargs['ge_nonlinearity_type'] = 'nonlinear'  # Default to sigmoid or other types
-
-    # Initialize the model with the specified settings
-    model = mavenn.Model(gpmap_type=gpmap_type, **default_model_kwargs)
-    model.set_data(x=trainval_df['x'], y=trainval_df['y'], validation_flags=trainval_df['validation'])
-    model.fit(**default_fit_kwargs)
-
-    return model
 
