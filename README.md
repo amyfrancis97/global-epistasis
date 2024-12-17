@@ -46,8 +46,7 @@ Install dependencies using conda (update ```<envname>``` to the environment name
 conda env create --name <envname> --file=global_epistasis.yml
 conda activate <envname>
 ```
-
-<img src="https://github.com/user-attachments/assets/3c1a64b3-4bfc-4b33-bb3a-bb4dd946c72e" alt="image" width="500"/> ### **Absolut! Setup:**
+### **Absolut! Setup:**
 
 In order to run these scripts, Absolut! software must first be set up. For this analyis, we only require the ./AbsolutNoLib version of the software to be set up, which allows analysis on pre-computed structures. For more information on how to set up this software, please follow the documentation in the [Absolut! GitHub Repository](https://github.com/csi-greifflab/Absolut).
 
@@ -126,13 +125,21 @@ sbatch run_jobs.sh 3_get_mutants.sh --double 0.5 --triple 0.01 "$result_file"
 
 Where *$result_file* is the resulting binding affinity file for each antigen that contains the best-binding 11-mer CDR-H3.
 
-### Step 4: sampling_wrapper.sh ###
-This job script runs MAVE-NN global epistasis models for different numbers of double and triples. sampling_wrapper.sh must have 3 arguments passed to it:
+### Step 4: run_ablation.sh ###
+This script runs MAVE-NN global epistasis models for different numbers of double and triples. The *ablation_analysis.sh* script must have two arguments passed to it:
 
 ```bash
-./sampling_wrapper.sh "all_mutants" "sample_all" "first_half"
+./ablation_analysis.sh "all_mutants" "sample_all"
 ```
 
-The first argument passed to the wrapper script can either be "all_mutants" or "single_epitope", depending on whether you want to allow epitope switching in Absolut! data.
-The second argument passed to the wrapper script is either "sample_all" or "sample_double_triples". "sample_all" randomly samples a specified total number of doubles and triples, whereas "sample_double_triples" allows you to specify exact numbers of doubles and exact numbers of triples to sample from the training dataset for modeling.
-The third argument passed to the wrapper script breaks down the antigen complexes into two batches, implemented due to computational constraints e.g., "first_half" or "second_half".
+* The first argument can either be "all_mutants" or "single_epitope", depending on whether you want to allow epitope switching in Absolut! data.
+* The second argument passed to the wrapper script is either "sample_all" or "sample_double_triples". "sample_all" randomly samples a specified total number of doubles and triples, whereas "sample_double_triples" allows you to specify exact numbers of doubles and exact numbers of triples to sample from the training dataset for modeling. Note that both options will always include all single mutants in the training data.
+
+### Step 5: 5_get_latent_phenotype_plots.sh ###
+This script runs a model for each antigen, for a specified number of double and triple mutant sequences. It then records and saves the data required for plotting latent phenotypes and prediction plots.
+
+```bash
+./5_get_latent_phenotype_plots.sh "all_mutants" 1000 1000 # Train model using all singles, 1000 doubles and 1000 triples
+```
+
+
