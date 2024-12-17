@@ -124,7 +124,7 @@ Generates mutants and computes **Absolut!** binding affinities:
 sbatch run_jobs.sh 3_get_mutants.sh --double 0.5 --triple 0.01 <result_file>
 ```
 
-#### Step 4:`run_ablation.sh`
+#### Step 4:`4_run_ablation.sh`
 Runs MAVE-NN global epistasis models.
 
 ```bash
