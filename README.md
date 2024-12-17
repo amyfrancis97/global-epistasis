@@ -35,7 +35,7 @@ This repository contains scripts for the Global Epistasis Project, which focuses
 │   ├── mavenn_visualisation_modules.py   # Contains all visualisation functions
 │   ├── plot_affinity_distributions.ipynb # Visualise binding affinity distributions for mutants from a single antigen complex
 │   └── plot_latent_phenotypes.py         # Plots observed vs predicted phenotypes
-└── esm/
+└── antibody_language_models/
     ├── get_antibert_likelihoods.py       # Generates mutations using AntiBERT likelihoods
     ├── get_esm_likelihoods.py            # Generates mutations using ESM likelihoods
     └── get_iglm_likelihoods.py           # Generates mutations using IGLM likelihoods
