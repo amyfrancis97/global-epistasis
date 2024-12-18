@@ -10,7 +10,7 @@ import os
 import math
 from matplotlib.gridspec import GridSpec
 
-# Create a dictionary for colors (optional)
+# Create a dictionary for colours
 colour_palette = sns.color_palette("colorblind")
 def plot_affinity_distribution(trainval_df, out_dir, colour_palette, wild_type_line=False, test_df=pd.DataFrame()):
     # Create a 2x2 grid of plots
@@ -31,7 +31,7 @@ def plot_affinity_distribution(trainval_df, out_dir, colour_palette, wild_type_l
         ax.tick_params(axis='x', labelsize=16)
         ax.tick_params(axis='y', labelsize=16)
    
-        # Optional: add wild type line
+        # Add wild type line
         if wild_type_line:
             ax.axvline(x=-86.05, color='black', linestyle='--', linewidth=1.5)
             ax.text(-102, ax.get_ylim()[1] * 0.9, 'Wild Type\n-86.05', color='black', 
@@ -58,13 +58,10 @@ def plot_affinity_distribution(trainval_df, out_dir, colour_palette, wild_type_l
     df_triple = pd.concat([trainval_df[trainval_df['dist'] == 3], test_df[test_df['dist'] == 3]]).reset_index(drop=True) if not test_df.empty else trainval_df[trainval_df['dist'] == 3]
     plot_single_distribution(axs[1, 1], df_triple, "Triple Mutants", colour_palette[3], wild_type_line)
 
-    # Adjust layout for better spacing
     plt.tight_layout(pad=3.0)
 
-    # Save the combined plot
+    # Save plot
     plt.savefig(f"{out_dir}/affinity_distributions_grid_pretty_palette.png", dpi=300)
-
-    # Show the plot
     plt.show()
 
 def plot_measurement_process(model_dict, test_df):
@@ -119,23 +116,16 @@ def plot_measurement_process(model_dict, test_df):
         ax.set_title(f'name', fontsize=15)
         ax.legend(loc='lower right')
 
-    # Adjust layout to prevent overlap
     fig.tight_layout()
-
-    # Show the plot
     plt.show()
 
 def plot_I_var_pred(info_df, name):
     print(name)
-
-    # Filter the dataframe based on the full name pattern
     filtered_df = info_df[info_df['name'] == name].reset_index(drop=True)
     print(filtered_df)
 
     # Create figure
     fig, ax = plt.subplots(figsize=[8, 4])
-
-    # Plot bars with seaborn
     barplot = sns.barplot(ax=ax,
                           data=filtered_df,
                           hue='metric',
@@ -164,11 +154,7 @@ def plot_I_var_pred(info_df, name):
     ax.set_ylabel('Information (bits)')
     ax.set_xlabel('')
     ax.set_ylim([-1, 2])
-
-    # Place the legend
     ax.legend(loc='upper left')
-
-    # Show the plot
     plt.show()
 
 def plot_metrics_double_triple(metric_df, metric_type, colour_palette):
@@ -231,23 +217,18 @@ def plot_sample_size_metrics(results, out_dir, sample = False, palette = colour_
             sample_size_sorted = sample_size.iloc[sorted_indices]
             model_data_sorted = model_data.iloc[sorted_indices]
 
-            # Smooth the curve using SciPy's spline interpolation
-            xnew = np.linspace(sample_size_sorted.min(), sample_size_sorted.max(), 300)  # Create more points for smoothness
-            spl = make_interp_spline(sample_size_sorted, model_data_sorted, k=3)  # k=3 gives a cubic spline
+            # Smooth the curve
+            xnew = np.linspace(sample_size_sorted.min(), sample_size_sorted.max(), 300)
+            spl = make_interp_spline(sample_size_sorted, model_data_sorted, k=3) 
             y_smooth = spl(xnew)
-
-            # Plot the data for the current model with the Seaborn color palette
             ax.plot(sample_size_sorted, model_data_sorted, label=f'{model.capitalize()} Model', color=palette[i])
-
 
         # Set labels and title for each subplot
         ax.set_xlabel('Sample Size', fontsize=12)
-        #ax.set_xlabel('Number of Doubles', fontsize=10)
         plt.xticks(fontsize=12)  
         plt.yticks(fontsize=12)
         ax.set_ylabel(metric.capitalize(), fontsize=12)
         ax.set_title(f'{metric.capitalize()} vs Sample Size', fontsize=14)
-    # ax.set_title(f'{metric.capitalize()} vs Number of Doubles', fontsize=12)
         ax.axvline(x=1000, color='grey', linestyle='--')
         ax.text(1000+300, ax.get_ylim()[1], '1000', color='grey', verticalalignment='top', rotation=90, fontsize=10)
         ax.axvline(x=2500, color='grey', linestyle='--')
@@ -258,13 +239,11 @@ def plot_sample_size_metrics(results, out_dir, sample = False, palette = colour_
     # Adjust the layout and add a legend
     plt.tight_layout()
     plt.legend(models)
-    #fig.legend(models, loc='upper center', bbox_to_anchor=(0.5, -0.05), ncol=len(models))
     plt.savefig(f"{out_dir}/all_sampled_mutants_random.png", dpi=300)
-    # Show the plot
     plt.show()
 
 def double_triple_heatmap(df, model, metric, out_dir, max_double=1500, max_triple=1500):
-    # Filter the DataFrame to include only rows where the gpmap_type is 'blackbox'
+    # Filter the DataFrame
     new_data = df[(df['gpmap_type'] == model) & (df['triple_sample_size'] < max_triple) & (df['double_sample_size'] < max_double)]
 
     # Create a pivot table for the heatmap with 'double_sample_size' on the x-axis and 'triple_sample_size' on the y-axis
@@ -276,22 +255,18 @@ def double_triple_heatmap(df, model, metric, out_dir, max_double=1500, max_tripl
     sns.heatmap(spearman_pivot, annot=True, cmap="coolwarm", cbar_kws=None, 
                 xticklabels=True, yticklabels=True, cbar=False, annot_kws={"size": 13.5})
 
-    # Reverse the y-axis so that the values increase from bottom to top
+    # Reverse the y-axis
     plt.gca().invert_yaxis()
 
     # Set plot labels and title
     plt.title(f'{model.capitalize()} {metric.capitalize()} Score for Different Double and Triple Sample Sizes', fontsize=20)
     plt.xlabel('Number of Doubles', fontsize=16)
     plt.ylabel('Number of Triples', fontsize=16)
-
-    # Rotate x and y axis ticks and increase their size
     plt.xticks(rotation=45, ha='right', fontsize=16)  # Rotate x-axis ticks 45 degrees
     plt.yticks(rotation=45, ha='right', fontsize=16)  # Rotate y-axis ticks 45 degrees
 
     plt.tight_layout()
     plt.savefig(f"{out_dir}/double_triple_{metric}_{model}_heatmap.png", dpi=300)
-
-    # Show the plot
     plt.show()
 
 def plot_active_learning(df, out_dir, threshold, selection_index):
@@ -326,8 +301,6 @@ def plot_active_learning(df, out_dir, threshold, selection_index):
                     linestyle='--', color='grey', label='Diminishing Returns (Spearman)')
     
     plt.legend()
-    
-    # Save and show the plot
     plt.savefig(f"{out_dir}/active_learning.png", dpi=300)
     plt.show()
 
@@ -368,10 +341,8 @@ def plot_grouped_bar_chart_per_model(metrics, out_dir,colour_palette):
 
         i += 1
 
-    # Set a common title for the whole figure
+
     plt.suptitle(f"Training on all singles, 1500 doubles, and 1500 triples", fontsize=16)
-    
-    # Adjust layout and save the plot
     plt.tight_layout(rect=[0, 0, 1, 0.95])  # Leave space for suptitle
     plt.savefig(f"{out_dir}/spearman_rho_per_model_comparison.png", dpi=300)
     plt.show()
@@ -418,7 +389,6 @@ def plot_amino_acid_distribution(df, out_dir, reference_sequence="LYYYGTSYGVL"):
         ax.set_ylabel("Amino Acid", fontsize = 16)
         ax.tick_params(axis='y', labelsize=16)
 
-    # Adjust layout to create more space and avoid overlap
     plt.tight_layout()
     plt.savefig(f"{out_dir}/amino_acid_distribution_grid.png", dpi=300)
     plt.xticks(fontsize = 16)
@@ -535,16 +505,14 @@ def plot_spearman_comparison(results_all_epitopes, results_single_epitope,
 
 def plot_r2_vs_sample_size(df, title="R2 vs Sample Size"):
     """
-    Plots 'r2' vs 'sample_size' from a given DataFrame with an elegant design.
+    Plots 'r2' vs 'sample_size' from a given DataFrame.
     
     Parameters:
     - df: DataFrame with columns 'sample_size' and 'r2'.
     - title: Title for the plot.
     """
-    # Sort data for consistent plotting
+    # Sort data
     df = df.sort_values(by='sample_size')
-
-    # Set a Seaborn theme
     sns.set_theme(style="whitegrid", font_scale=1.2)
 
     # Create the figure and axes
@@ -562,26 +530,19 @@ def plot_r2_vs_sample_size(df, title="R2 vs Sample Size"):
         alpha=0.8,
     )
 
-    # Customize axis labels and title
     plt.xlabel('Sample Size', fontsize=18, labelpad=15)
     plt.ylabel('R2', fontsize=18, labelpad=15)
     plt.title(title, fontsize=18, pad=20, weight='bold')
     plt.axhline(y=0.5, linestyle='--', linewidth=2)
     plt.axvline(x=375, linestyle='--', linewidth=2)
-    
-
-
-    # Customize ticks
     plt.xticks(fontsize=18)
     plt.yticks(fontsize=18)
 
-    # Remove unnecessary spines for a clean look
+    # Remove unnecessary spines
     sns.despine()
 
-    # Add gridlines for readability
+    # Add gridlines
     plt.grid(visible=True, linestyle='--', alpha=0.7)
-
-    # Save and show
     plt.tight_layout()
     plt.savefig("/Users/uw20204/Desktop/1fbi_x_r2_vs_sample_size_plot.png", dpi=300)
     plt.show()
@@ -593,7 +554,7 @@ def plot_heatmap_single_antigen(results_list, datasets, out_dir, gpmap):
     - Y-axis: Dataset names
     - Color: Spearman's rho for the blackbox model
     """
-    # Initialize a dictionary to store R2 for each dataset and sample size
+    # Initialise a dictionary to store R2 for each dataset and sample size
     heatmap_data = {}
 
     # Iterate over the single result
@@ -618,17 +579,14 @@ def plot_heatmap_single_antigen(results_list, datasets, out_dir, gpmap):
     for text in ax.texts:  # Iterate over the text elements
         text.set_rotation(90)  # Set the rotation
         text.set_size(10)
-    # Customize the color bar
+    # Customise the color bar
     cbar = ax.collections[0].colorbar
     cbar.set_label("R2", fontsize=14)
     cbar.ax.tick_params(labelsize=12)
 
-    # Customize labels
     plt.xlabel('Total number of doubles & triples', fontsize=14)
     plt.ylabel('Antigen', fontsize=14)
     plt.title(f'R2 for {gpmap} Model', fontsize=16)
-
-    # Save the plot
     plt.tight_layout()
     plt.savefig(f"{out_dir}/r2_heatmap_{gpmap}.png", dpi=300)
     plt.show()
@@ -640,7 +598,7 @@ def plot_heatmap_of_spearman(results_list, datasets, out_dir, gpmap):
     - Y-axis: Dataset names (sorted by numeric prefix, then alphabetically)
     - Color: Spearman's rho for the blackbox model
     """
-    # Initialize a dictionary to store Spearman's rho for each dataset and sample size
+    # Initialise a dictionary to store Spearman's rho for each dataset and sample size
     heatmap_data = {}
 
     # Iterate over each result (dataset)
@@ -660,7 +618,7 @@ def plot_heatmap_of_spearman(results_list, datasets, out_dir, gpmap):
     # Convert the dictionary to a DataFrame for the heatmap
     heatmap_df = pd.DataFrame(heatmap_data)
 
-    # Extract numeric prefix and the remaining part, then sort accordingly
+    # Extract numeric prefix and the remaining part, then sort 
     sorted_datasets = sorted(
         heatmap_df.columns,
         key=lambda x: (int(re.match(r'\d+', x).group()), x)  # First by number, then alphabetically
@@ -673,22 +631,17 @@ def plot_heatmap_of_spearman(results_list, datasets, out_dir, gpmap):
     
     # Increase the font size of the color bar label
     cbar = ax.collections[0].colorbar
-    cbar.set_label("R2", fontsize=16)  # Set label and font size
-    cbar.ax.tick_params(labelsize=14)  # Set font size for color bar ticks
+    cbar.set_label("R2", fontsize=16)
+    cbar.ax.tick_params(labelsize=14) 
 
-    plt.xticks(ha='right', fontsize=14)  # Rotate x-axis ticks 45 degrees
+    plt.xticks(ha='right', fontsize=14)
     plt.yticks(ticks=np.arange(len(heatmap_df.columns)) + 0.5, labels=heatmap_df.columns, fontsize=14)
-
-    # Set labels and title
     plt.xlabel('Total number of doubles & triples', fontsize=16)
     plt.ylabel('Antigens', fontsize=16)
     plt.title(f'R2 for {gpmap} Model Across Antigens Trained on All 209 Single Mutants and Different Numbers of Doubles & Triples', fontsize=20)
-
-    # Save the plot
     plt.tight_layout()
     plt.savefig(f"{out_dir}/r2_heatmap_{gpmap}.png", dpi=300)
     plt.show()
-
 
 
 def plot_num_epitopes_vs_r2(num_epitopes_r2_df, output_path=None):
@@ -702,7 +655,7 @@ def plot_num_epitopes_vs_r2(num_epitopes_r2_df, output_path=None):
     Returns:
     - None: Displays or saves the plot.
     """
-    sns.set(style="whitegrid", context="talk")  # Seaborn style
+    sns.set(style="whitegrid", context="talk") 
     plt.figure(figsize=(10, 6))
 
     # Scatter plot
@@ -717,8 +670,6 @@ def plot_num_epitopes_vs_r2(num_epitopes_r2_df, output_path=None):
     plt.xlabel("Number of Epitopes", fontsize=14, labelpad=10)
     plt.ylabel("R² Value", fontsize=14, labelpad=10)
     plt.legend(loc='best', fontsize=12)
-
-    # Grid lines and customisation
     plt.grid(visible=True, linestyle="--", alpha=0.5)
     plt.tight_layout()
 
@@ -769,15 +720,10 @@ def plot_min_doubles_triples(results_list, datasets, gpmap, threshold=0.6):
     plt.yscale('log')
     plt.title(f'Minimum Doubles/Triples for R2 > {threshold} ({gpmap})', fontsize=14)
     plt.tight_layout()
-
-    # Save the plot
     plt.savefig(f"min_doubles_triples_{gpmap}.png", dpi=300)
     plt.show()
 
     return min_doubles_triples_df
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 def plot_max_spearman_additive(df, output_path=None, palette="viridis"):
     """
@@ -820,11 +766,7 @@ def plot_max_spearman_additive(df, output_path=None, palette="viridis"):
     plt.xlabel("Antigen", fontsize=14)
     plt.ylabel("Max Spearman's Rho", fontsize=14)
     plt.title("Max Spearman's Rho for Additive Models for Each Antigen", fontsize=16)
-
-    # Rotate x-axis labels for better readability
     plt.xticks(rotation=90, fontsize=10)
-
-    # Adjust layout
     plt.tight_layout()
 
     # Save the plot if output_path is specified
@@ -832,13 +774,11 @@ def plot_max_spearman_additive(df, output_path=None, palette="viridis"):
         plt.savefig(output_path, dpi=300)
         print(f"Plot saved to {output_path}")
 
-    # Show the plot
     plt.show()
 
 colour_palette = sns.color_palette("pastel", 4)
 
 def generate_panel_of_plots(data_dir, output_path, gpmap, max_plots_per_page=30, colour_palette = colour_palette):
-    print(data_dir)
     # Debug: List all files in the data directory
     all_files = os.listdir(data_dir)
     print("All files in directory:", all_files)
@@ -924,7 +864,6 @@ def generate_panel_of_plots(data_dir, output_path, gpmap, max_plots_per_page=30,
         for i, (prefix, pred_data) in enumerate(batch):
             ax = axes[i]
             # Scatter plot
-
             ax.scatter(pred_data['yhat_test'], pred_data['y_test'], alpha=0.9, s=5, color=colour_palette[0])
             # Diagonal line
             ax.plot([min(pred_data['yhat_test']), max(pred_data['yhat_test'])],
@@ -978,7 +917,6 @@ def generate_panel_of_plots(data_dir, output_path, gpmap, max_plots_per_page=30,
 
 
 def generate_comparison_panels(data_dir, output_path, gpmap_types, max_plots=5):
-    # Debug: List all files in the data directory
     all_files = os.listdir(data_dir)
 
     # Filter files for each GP map type
@@ -1026,7 +964,6 @@ def generate_comparison_panels(data_dir, output_path, gpmap_types, max_plots=5):
     # Generate prediction plot panel
     def generate_panel(data, file_name, x_label, y_label, title_key):
         num_gpmap_types = len(gpmap_types)
-        # Reduce title row space using smaller height ratio
         fig = plt.figure(figsize=(5 * max_plots, 5 * num_gpmap_types))
         grid = GridSpec(num_gpmap_types * 2, max_plots, figure=fig, height_ratios=[0.2, 1] * num_gpmap_types)
 
@@ -1059,7 +996,6 @@ def generate_comparison_panels(data_dir, output_path, gpmap_types, max_plots=5):
                 else:
                     ax.axis('off')  # Hide unused axes
 
-        # Adjust layout and save the figure
         plt.tight_layout(h_pad=1.5)
         plt.savefig(os.path.join(output_path, file_name), dpi=300)
         plt.close()
